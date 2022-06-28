@@ -19,9 +19,7 @@ const Home: NextPage = () => {
                 </div>
                 <div className={"mt-2 bg-blue-500 p-3 text-white text-center rounded-xl w-2/3 mx-auto"}>Checkout</div>
             </div>
-            <div className={"bg-white p-10 rounded-3xl shadow-2xl"}>
-
-            </div>
+            <div className={"bg-white p-10 rounded-3xl shadow-2xl"}></div>
             <div className={"bg-white p-10 rounded-3xl shadow-2xl"}></div>
             <div className={"bg-white p-10 rounded-3xl shadow-2xl"}></div>
         </div>

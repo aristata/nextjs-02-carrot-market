@@ -1,6 +1,6 @@
 import type {NextPage} from "next";
 
-const Profile: NextPage = () => {
+const Index: NextPage = () => {
   return (
     <div className="py-10 px-4">
       <div className="flex items-center space-x-3">
@@ -143,4 +143,4 @@ const Profile: NextPage = () => {
   );
 };
 
-export default Profile;
+export default Index;

@@ -1,6 +1,6 @@
 import type {NextPage} from "next";
 
-const Index: NextPage = () => {
+const Chat: NextPage = () => {
   return (
     <div className="py-10 divide-y-[1px]">
       {[1, 2, 3, 4, 5, 6].map((_, i) => (
@@ -16,4 +16,4 @@ const Index: NextPage = () => {
   );
 }
 
-export default Index;
+export default Chat;

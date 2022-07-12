@@ -1,6 +1,6 @@
 import type {NextPage} from "next";
 
-const Upload: NextPage = () => {
+const Item: NextPage = () => {
   return (
     <div className="px-4 py-16">
       <div>
@@ -46,4 +46,4 @@ const Upload: NextPage = () => {
   );
 };
 
-export default Upload;
+export default Item;

@@ -1,11 +1,12 @@
 import type {NextPage} from "next";
 import Layout from "../../components/layout";
+import Button from "../../components/button";
 
 const ItemDetail: NextPage = () => {
   return (
-    <Layout title="" canGoBack>
-      <div className="px-4 py-10">
-        <div className="mb-10">
+    <Layout canGoBack>
+      <div className="p-4">
+        <div className="mb-8">
           <div className="h-96 bg-slate-300"/>
           <div className="flex items-center space-x-3 py-3 border-b border-t cursor-pointer">
             <div className="w-12 h-12 bg-slate-300 rounded-full"/>
@@ -28,11 +29,7 @@ const ItemDetail: NextPage = () => {
               motherfucker to get shot. You understand?
             </p>
             <div className="flex items-center justify-between space-x-2">
-              <button
-                className="flex-1 bg-orange-400 text-white font-medium py-3 rounded-md shadow-md
-               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 hover:bg-orange-500">Talk
-                to seller
-              </button>
+              <Button text="Talk to seller" large/>
               <button
                 className="flex p-3 rounded-md items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500">
                 <svg

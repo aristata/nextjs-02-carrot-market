@@ -23,17 +23,18 @@ export default function Layout({
   return (
     <div>
       <div
-        className={cls(
-          !canGoBack ? "justify-center" : "px-4",
-          "py-3 w-full max-w-xl bg-white text-lg font-medium text-gray-800 fixed border-b top-0 flex items-center"
-        )}>
-        {canGoBack ? <button onClick={goBack}>
+        className="bg-white w-full h-12 max-w-xl font-medium text-lg text-gray-800 px-10 fixed border-b top-0 flex items-center justify-center">
+        {canGoBack ? <button onClick={goBack} className={"absolute left-4"}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
           </svg>
         </button> : null}
-        {title ? <span>{title}</span> : null}
+        {title ? (
+          <span className={cls(canGoBack ? "mx-auto" : "", "")}>
+            {title}
+          </span>
+        ) : null}
       </div>
       <div className={cls(
         "pt-12",
@@ -45,7 +46,12 @@ export default function Layout({
         <nav
           className="w-full max-w-xl bg-white text-gray-700 border-t fixed bottom-0 px-10 pb-5 pt-3 flex justify-between items-center text-sm">
           <Link href="/">
-            <a className="flex flex-col items-center space-y-2">
+            <a className={cls(
+              "flex flex-col items-center space-y-2 ",
+              router.pathname === "/"
+                ? "text-orange-500"
+                : "hover:text-gray-500 transition-colors"
+            )}>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round"
@@ -55,7 +61,14 @@ export default function Layout({
             </a>
           </Link>
           <Link href="/community">
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                router.pathname === "/community"
+                  ? "text-orange-500"
+                  : "hover:text-gray-500 transition-colors"
+              )}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round"
@@ -65,7 +78,14 @@ export default function Layout({
             </a>
           </Link>
           <Link href="/chats">
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                router.pathname === "/chats"
+                  ? "text-orange-500"
+                  : "hover:text-gray-500 transition-colors"
+              )}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round"
@@ -75,7 +95,14 @@ export default function Layout({
             </a>
           </Link>
           <Link href="/live">
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                router.pathname === "/live"
+                  ? "text-orange-500"
+                  : "hover:text-gray-500 transition-colors"
+              )}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round"
@@ -85,7 +112,14 @@ export default function Layout({
             </a>
           </Link>
           <Link href="/profile">
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                router.pathname === "/profile"
+                  ? "text-orange-500"
+                  : "hover:text-gray-500 transition-colors"
+              )}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round"

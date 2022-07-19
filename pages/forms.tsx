@@ -48,7 +48,11 @@ export default function Forms() {
   //   event.preventDefault();
   //   console.log(username, email, password);
   // }
-  const { register, handleSubmit } = useForm<LoginForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>({ mode: "onChange" });
   const onValid = (data: LoginForm) => {
     console.log("im valid!!!");
   };
@@ -71,8 +75,20 @@ export default function Forms() {
       <input
         type={"email"}
         placeholder="Email"
-        {...register("email", { required: "The email is required." })}
+        {...register("email", {
+          required: "The email is required.",
+          validate: {
+            notGmail: (value) =>
+              !value.includes("@gmail.com") || "Gmail is not allowed.",
+          },
+        })}
+        className={errors.email ? "bg-red-300 border-red-500" : ""}
       />
+      {errors.email?.message ? (
+        <span className="text-red-500 text-sm">{errors.email.message}</span>
+      ) : (
+        ""
+      )}
       <input
         type={"password"}
         placeholder="password"

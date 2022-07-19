@@ -12,14 +12,15 @@ import { FieldErrors, FieldErrorsImpl, useForm } from "react-hook-form";
  * 2. 인풋에 적용하기 쉽다
  * 3. 이벤트를 신경쓰지 않아도 된다
  * 4. 밸리데이션을 쉽게 구현할 수 있다
+ * 5. 더 나은 에러
+ * 6. 인풋을 컨트롤 할 수 있어야 한다
  */
-// 더 나은 에러
-// 인풋 컨트롤 유지
 
 interface LoginForm {
   username: string;
   password: string;
   email: string;
+  errors?: string;
 }
 
 export default function Forms() {
@@ -52,9 +53,15 @@ export default function Forms() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setError,
+    setValue,
+    reset,
+    resetField,
   } = useForm<LoginForm>({ mode: "onChange" });
   const onValid = (data: LoginForm) => {
     console.log("im valid!!!");
+    reset();
   };
   const onInvalid = (errors: FieldErrorsImpl) => {
     console.log(errors);
@@ -72,6 +79,7 @@ export default function Forms() {
           },
         })}
       />
+      {errors.username?.message}
       <input
         type={"email"}
         placeholder="Email"
@@ -95,6 +103,7 @@ export default function Forms() {
         {...register("password", { required: "The password is required." })}
       />
       <input type={"submit"} value="Create Account" />
+      {errors.errors?.message}
     </form>
   );
 }

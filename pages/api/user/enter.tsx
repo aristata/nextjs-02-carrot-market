@@ -4,18 +4,19 @@ import client from "@libs/backend/client";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { phone, email } = req.body;
-  const payload = phone ? { phone: +phone } : { email };
+  const userInfo = phone ? { phone: +phone } : { email };
+  const randomNumber = Math.floor(100000 + Math.random() * 900000) + "";
   const token = await client.token.create({
     data: {
-      payload: "12345",
+      payload: randomNumber,
       user: {
         connectOrCreate: {
           where: {
-            ...payload
+            ...userInfo
           },
           create: {
             name: "Anonymous",
-            ...payload
+            ...userInfo
           }
         }
       }

@@ -1,9 +1,9 @@
-import {cls} from "../libs/utils";
+import { cls } from "../libs/front/utils";
 
 interface ButtonProps {
   large?: boolean;
   text: string;
-  
+
   [key: string]: any;
 }
 
@@ -23,5 +23,5 @@ export default function Button({
     >
       {text}
     </button>
-  )
+  );
 }

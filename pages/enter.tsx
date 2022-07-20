@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../components/button";
 import Input from "../components/input";
-import useMutation from "../libs/front/useMutation";
-import { cls } from "../libs/front/utils";
+import useMutation from "../libs/frontend/useMutation";
+import { cls } from "../libs/frontend/utils";
 
 interface EnterForm {
   email?: string;

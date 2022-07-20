@@ -1,4 +1,4 @@
-import { cls } from "../libs/front/utils";
+import { cls } from "../libs/frontend/utils";
 
 interface ButtonProps {
   large?: boolean;

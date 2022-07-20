@@ -1,5 +1,5 @@
 import React from "react";
-import { cls } from "../libs/front/utils";
+import { cls } from "../libs/frontend/utils";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -14,7 +14,7 @@ export default function Layout({
   title,
   canGoBack,
   hasTabBar,
-  children,
+  children
 }: LayoutProps) {
   const router = useRouter();
   const goBack = () => {

@@ -1,4 +1,4 @@
-import { cls } from "../libs/front/utils";
+import { cls } from "../libs/frontend/utils";
 
 interface MessageProps {
   message: string;
@@ -9,7 +9,7 @@ interface MessageProps {
 export default function Message({
   message,
   avatarUrl,
-  reversed,
+  reversed
 }: MessageProps) {
   return (
     <div

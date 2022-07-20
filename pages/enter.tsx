@@ -13,7 +13,6 @@ interface EnterForm {
 
 const Enter: NextPage = () => {
   const [enter, { loading, data, error }] = useMutation("/api/user/enter");
-  const [submitting, setSubmitting] = useState(false);
   const [method, setMethod] = useState<"email" | "phone">("email");
   const { register, watch, reset, handleSubmit } = useForm<EnterForm>();
   // console.log(watch());
@@ -25,8 +24,9 @@ const Enter: NextPage = () => {
     reset();
     setMethod("phone");
   };
-  const onValid = (data: EnterForm) => {
-    enter(data);
+  const onValid = (validForm: EnterForm) => {
+    if (loading) return;
+    enter(validForm);
   };
   return (
     <div className="mt-16 px-4">
@@ -82,9 +82,11 @@ const Enter: NextPage = () => {
               required
             />
           ) : null}
-          {method === "email" ? <Button text={"Get login link"} /> : null}
+          {method === "email" ? (
+            <Button text={loading ? "Loading" : "Get login link"} />
+          ) : null}
           {method === "phone" ? (
-            <Button text={submitting ? "Loading" : "Get one-time password"} />
+            <Button text={loading ? "Loading" : "Get one-time password"} />
           ) : null}
         </form>
 

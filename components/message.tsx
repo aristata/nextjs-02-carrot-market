@@ -1,4 +1,4 @@
-import { cls } from "../libs/frontend/utils";
+import { cls } from "@libs/frontend/utils";
 
 interface MessageProps {
   message: string;

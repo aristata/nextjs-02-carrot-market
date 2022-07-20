@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import apiHandler from "../../../libs/backend/apiHandler";
-import client from "../../../libs/backend/client";
+import apiHandler from "@libs/backend/apiHandler";
+import client from "@libs/backend/client";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log(req.body);

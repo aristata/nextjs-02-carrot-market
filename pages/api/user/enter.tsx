@@ -64,7 +64,7 @@ async function handler(
           Body: {
             Text: {
               Charset: "UTF-8",
-              Data: "Test"
+              Data: `당신의 토큰은 ${randomNumber}`
             }
           },
           Subject: {

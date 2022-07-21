@@ -3,6 +3,8 @@ import apiHandler, { ResponseType } from "@libs/backend/apiHandler";
 import client from "@libs/backend/client";
 import twilio from "twilio";
 import mail from "@sendgrid/mail";
+import { sesClient } from "@libs/backend/awsSesClient";
+import { SendEmailCommand } from "@aws-sdk/client-ses";
 
 mail.setApiKey(process.env.SENDGRID_API_KEY!);
 
@@ -50,6 +52,29 @@ async function handler(
       text: `당신의 토큰은 ${randomNumber}`
     });
     console.log(emailResponse); */
+    const emailResponse = await sesClient.send(
+      new SendEmailCommand({
+        Destination: {
+          ToAddresses: [
+            "aristataopta@gmail.com" //RECEIVER_ADDRESS
+            /* more To-email addresses */
+          ]
+        },
+        Message: {
+          Body: {
+            Text: {
+              Charset: "UTF-8",
+              Data: "Test"
+            }
+          },
+          Subject: {
+            Charset: "UTF-8",
+            Data: "AWS SES 테스트"
+          }
+        },
+        Source: "aristataopta@gmail.com" // SENDER_ADDRESS
+      })
+    );
   }
   return res.status(200).json({ ok: true });
 }

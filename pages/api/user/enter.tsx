@@ -16,7 +16,7 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const { phone, email } = req.body;
-  const userInfo = phone ? { phone: +phone } : email ? { email } : null;
+  const userInfo = phone ? { phone: phone } : email ? { email } : null;
   if (!userInfo) return res.status(400).json({ ok: false });
   const randomNumber = Math.floor(100000 + Math.random() * 900000) + "";
   const token = await client.token.create({

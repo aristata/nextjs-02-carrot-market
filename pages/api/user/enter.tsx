@@ -36,20 +36,20 @@ async function handler(
     }
   });
   if (phone) {
-    const twilioResponse = await twilioClient.messages.create({
+    /* const twilioResponse = await twilioClient.messages.create({
       messagingServiceSid: process.env.TWILIO_MS_SID,
       to: process.env.MY_PHONE!,
       body: `당신의 로그인 토큰은 ${randomNumber} 입니다.`
     });
-    console.log(twilioResponse);
+    console.log(twilioResponse); */
   } else if (email) {
-    const emailResponse = await mail.send({
+    /* const emailResponse = await mail.send({
       from: "aristataetc@gmail.com",
       to: "aristataetc@gmail.com",
       subject: "인증 메일 테스트",
       text: `당신의 토큰은 ${randomNumber}`
     });
-    console.log(emailResponse);
+    console.log(emailResponse); */
   }
   return res.status(200).json({ ok: true });
 }

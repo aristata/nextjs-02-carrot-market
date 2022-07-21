@@ -72,7 +72,7 @@ async function handler(
             Data: "AWS SES 테스트"
           }
         },
-        Source: "aristataopta@gmail.com" // SENDER_ADDRESS
+        Source: "support@domexcoin.com" // SENDER_ADDRESS
       })
     );
   }

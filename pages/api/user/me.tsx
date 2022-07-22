@@ -15,27 +15,19 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { token: inputToken } = req.body;
-  console.log(`inputToken = ${inputToken}`);
-
-  const outputToken = await client.token.findUnique({
+  const profile = await client.user.findUnique({
     where: {
-      payload: inputToken
-    },
-    include: {
-      user: true
+      id: req.session.user?.id
     }
   });
-  if (!outputToken) return res.status(404).end();
 
-  req.session.user = {
-    id: outputToken.userId
-  };
-  await req.session.save();
-  res.status(200).end();
+  res.json({
+    ok: true,
+    profile
+  });
 }
 
-export default withIronSessionApiRoute(apiHandler("POST", handler), {
+export default withIronSessionApiRoute(apiHandler("GET", handler), {
   cookieName: "carrotSession",
   password: process.env.IRON_SESSION_PASSWORD!
 });

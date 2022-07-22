@@ -52,12 +52,11 @@ async function handler(
       text: `당신의 토큰은 ${randomNumber}`
     });
     console.log(emailResponse); */
-    const emailResponse = await sesClient.send(
+    /* const emailResponse = await sesClient.send(
       new SendEmailCommand({
         Destination: {
           ToAddresses: [
-            "aristataopta@gmail.com" //RECEIVER_ADDRESS
-            /* more To-email addresses */
+            "aristataopta@gmail.com" //RECEIVER_ADDRESS            
           ]
         },
         Message: {
@@ -74,7 +73,7 @@ async function handler(
         },
         Source: "support@domexcoin.com" // SENDER_ADDRESS
       })
-    );
+    ); */
   }
   return res.status(200).json({ ok: true });
 }

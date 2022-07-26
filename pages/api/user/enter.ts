@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import apiHandler, { ResponseType } from "@libs/backend/apiHandler";
-import client from "@libs/backend/client";
+import client from "@libs/backend/prismaClient";
 import twilio from "twilio";
 import mail from "@sendgrid/mail";
 import { sesClient } from "@libs/backend/awsSesClient";

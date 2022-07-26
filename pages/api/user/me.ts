@@ -19,4 +19,9 @@ async function handler(
   });
 }
 
-export default apiSessionHandler(apiHandler("GET", handler));
+export default apiSessionHandler(
+  apiHandler({
+    method: "GET",
+    handler
+  })
+);

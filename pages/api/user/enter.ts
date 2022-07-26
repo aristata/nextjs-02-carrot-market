@@ -78,4 +78,8 @@ async function handler(
   return res.status(200).json({ ok: true });
 }
 
-export default apiHandler("POST", handler);
+export default apiHandler({
+  method: "POST",
+  handler,
+  isPrivate: false
+});

@@ -22,11 +22,11 @@ interface MutationResult {
 
 const Enter: NextPage = () => {
   const [enter, { loading, data, error }] =
-    useMutation<MutationResult>("/api/user/enter");
+    useMutation<MutationResult>("/api/users/enter");
   const [
     confirmToken,
     { loading: tokenLoading, data: tokenData, error: tokenError }
-  ] = useMutation<MutationResult>("/api/user/confirm");
+  ] = useMutation<MutationResult>("/api/users/confirm");
   const [method, setMethod] = useState<"email" | "phone">("email");
   const { register, watch, reset, handleSubmit } = useForm<EnterForm>();
   const { register: tokenRegister, handleSubmit: tokenHandleSubmit } =

@@ -5,19 +5,21 @@ export interface ResponseType {
   [key: string]: any;
 }
 
+type method = "GET" | "POST" | "DELETE" | "UPDATE";
+
 interface ApiParam {
-  method: "GET" | "POST" | "DELETE";
+  methods: method[];
   handler: (req: NextApiRequest, res: NextApiResponse) => void;
   isPrivate?: boolean;
 }
 
 export default function apiHandler({
-  method,
+  methods,
   handler,
   isPrivate = true
 }: ApiParam) {
   return (req: NextApiRequest, res: NextApiResponse) => {
-    if (req.method !== method) {
+    if (req.method && !methods.includes(req.method as any)) {
       return res
         .status(405)
         .json({ ok: false, message: "허용하지 않는 HTTP method 입니다." });

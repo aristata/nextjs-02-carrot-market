@@ -79,7 +79,7 @@ async function handler(
 }
 
 export default apiHandler({
-  method: "POST",
+  methods: ["POST"],
   handler,
   isPrivate: false
 });

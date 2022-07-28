@@ -32,4 +32,4 @@ async function handler(
   res.json({ ok: true });
 }
 
-export default apiSessionHandler(apiHandler({ method: "POST", handler }));
+export default apiSessionHandler(apiHandler({ methods: ["POST"], handler }));

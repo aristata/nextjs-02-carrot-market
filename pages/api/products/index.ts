@@ -34,7 +34,7 @@ async function handler(
 
 export default apiSessionHandler(
   apiHandler({
-    method: "POST",
+    methods: ["POST", "GET"],
     handler
   })
 );

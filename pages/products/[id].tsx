@@ -4,12 +4,22 @@ import Button from "@components/button";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
-import { Product } from "@prisma/client";
+import { Product, User } from "@prisma/client";
 import Link from "next/link";
 
-const ItemDetail: NextPage = () => {
+interface ProductWithUser extends Product {
+  user: User;
+}
+
+interface ProductDetailResponse {
+  ok: boolean;
+  product: ProductWithUser;
+  relatedProducts: Product[];
+}
+
+const ProductDetail: NextPage = () => {
   const router = useRouter();
-  const { data, error } = useSWR(
+  const { data, error } = useSWR<ProductDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   const [isLoading, setIsLoading] = useState(true);
@@ -29,9 +39,9 @@ const ItemDetail: NextPage = () => {
             <div className="w-12 h-12 bg-slate-300 rounded-full" />
             <div>
               <p className="text-sm font-medium text-gray-700">
-                {isLoading ? "Loading..." : data?.product?.user.name}
+                {isLoading ? "Loading..." : data?.product?.user?.name}
               </p>
-              <Link href={`/users/profiles/${data?.product?.user.id}`}>
+              <Link href={`/users/profiles/${data?.product?.user?.id}`}>
                 <a className="text-xs font-medium text-gray-500">
                   View profile &rarr;
                 </a>
@@ -40,13 +50,13 @@ const ItemDetail: NextPage = () => {
           </div>
           <div className="mt-5">
             <h1 className="text-3xl font-bold text-gray-900">
-              {isLoading ? "Loading..." : data?.product.name}
+              {isLoading ? "Loading..." : data?.product?.name}
             </h1>
             <span className="text-2xl text-gray-900 block mt-3">
-              ${isLoading ? "Loading..." : data?.product.price}
+              ${isLoading ? "Loading..." : data?.product?.price}
             </span>
             <p className="text-gray-700 my-6">
-              {isLoading ? "Loading..." : data?.product.description}
+              {isLoading ? "Loading..." : data?.product?.description}
             </p>
             <div className="flex items-center justify-between space-x-2">
               <Button text="Talk to seller" large />
@@ -73,12 +83,19 @@ const ItemDetail: NextPage = () => {
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Similar items</h2>
           <div className="grid grid-cols-2 gap-4 mt-5">
-            {[1, 2, 3, 4, 5, 6].map((_, i) => (
-              <div key={i}>
-                <div className="h-56 w-full bg-slate-300 mb-2" />
-                <h3 className="text-gray-700 -mb-1">Galaxy S60</h3>
-                <span className="text-sm font-medium text-gray-900">$6</span>
-              </div>
+            {data?.relatedProducts.map((relatedProduct) => (
+              <Link
+                href={`/products/${relatedProduct.id}`}
+                key={relatedProduct.id}
+              >
+                <a>
+                  <div className="h-56 w-full bg-slate-300 mb-2" />
+                  <h3 className="text-gray-700 -mb-1">{relatedProduct.name}</h3>
+                  <span className="text-sm font-medium text-gray-900">
+                    ￦{relatedProduct.price}
+                  </span>
+                </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -87,4 +104,4 @@ const ItemDetail: NextPage = () => {
   );
 };
 
-export default ItemDetail;
+export default ProductDetail;

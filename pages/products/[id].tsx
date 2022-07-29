@@ -22,7 +22,17 @@ interface ProductDetailResponse {
 
 const ProductDetail: NextPage = () => {
   const router = useRouter();
-  const { data, error } = useSWR<ProductDetailResponse>(
+  /* 
+    [ bound mutate 사용 ]
+    ( https://swr.vercel.app/ko/docs/mutation#%EB%B0%94%EC%9D%B8%EB%94%A9-%EB%90%9C-%EB%AE%A4%ED%85%8C%EC%9D%B4%ED%8A%B8 )
+    useSWR에 의해 반환된 SWR 객체는 SWR의 키로 미리 바인딩 된 mutate() 함수를 포함하고 있습니다.
+    bound mutate 함수는 기능적으로 전역 mutate 함수와 동일합니다. 하지만 key 파라미터를 요구하지 않습니다.
+    mutate 를 사용하면 캐싱된 데이터를 갱신하여, 백엔드에서 최신 데이터를 가져 오기 전에 UI 를 갱신하는 장점이 있습니다.
+    이를 낙관적(=optimistic) UI 업데이트 라고하는데,
+    백엔드로부터 응답 데이터를 받기 전에 요청이 성공할 것이라고 낙관하고,
+    미리 UI 를 갱신하기 때문에 붙여진 이름입니다.
+  */
+  const { data, error, mutate } = useSWR<ProductDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   const [isLoading, setIsLoading] = useState(true);
@@ -36,6 +46,21 @@ const ProductDetail: NextPage = () => {
 
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
   const onFavClick = () => {
+    // data 가 없으면 함수 종료
+    if (!data) return;
+
+    /* 
+      mutate 함수의 첫번째 인자는 변경될 데이터 값 입니다.
+      
+      두번째 인자는 백엔드로 데이터를 검증할 것인지 여부 입니다.
+      만약 두번째 인자의 값이 true 이었다면, 
+        UI 에 먼저 변경된 데이터를 보여주고, 
+        백그라운드에서 백엔드에 데이터 조회를 한 다음,
+        백에서 가져온 데이터를 다시 UI 에 덮어씌웁니다.
+    */
+    mutate({ ...data, isLiked: !data.isLiked }, false);
+
+    // 실제로 백엔드의 데이터를 갱신할 요청을 백엔드에 보냅니다.
     toggleFav({});
   };
   return (
@@ -80,8 +105,8 @@ const ProductDetail: NextPage = () => {
                 {data?.isLiked ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
+                    className="h-6 w-6"
+                    viewBox="0 0 24 24"
                     fill="currentColor"
                   >
                     <path

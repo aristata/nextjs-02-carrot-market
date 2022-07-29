@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Layout from "@components/layout";
 import Button from "@components/button";
 import { useRouter } from "next/router";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { useEffect, useState } from "react";
 import { Product, User } from "@prisma/client";
 import Link from "next/link";
@@ -32,9 +32,25 @@ const ProductDetail: NextPage = () => {
     백엔드로부터 응답 데이터를 받기 전에 요청이 성공할 것이라고 낙관하고,
     미리 UI 를 갱신하기 때문에 붙여진 이름입니다.
   */
-  const { data, error, mutate } = useSWR<ProductDetailResponse>(
+  const {
+    data,
+    error,
+    mutate: boundMutate
+  } = useSWR<ProductDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
+
+  /*
+    [ unbound mutate 사용 ]
+    ( https://swr.vercel.app/ko/docs/mutation#%EA%B0%B1%EC%8B%A0%ED%95%98%EA%B8%B0 )
+    useSWRConfig() hook으로부터 mutate 함수를 얻을 수 있으며,
+    mutate(key)를 호출하여 동일한 키를 사용하는 다른 SWR hook에게 갱신 메시지를 전역으로 브로드캐스팅할 수 있습니다.
+    
+    쉽게 말해 같은 화면의 데이터를 변경하길 원한다면, bound mutate 를 사용하고
+    다른 화면의 데이터를 변경하길 원한다면, unbound mutate 를 사용하면 됩니다.
+  */
+  const { mutate } = useSWRConfig();
+
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (!data && !error) {
@@ -58,7 +74,13 @@ const ProductDetail: NextPage = () => {
         백그라운드에서 백엔드에 데이터 조회를 한 다음,
         백에서 가져온 데이터를 다시 UI 에 덮어씌웁니다.
     */
-    mutate({ ...data, isLiked: !data.isLiked }, false);
+    boundMutate({ ...data, isLiked: !data.isLiked }, false);
+
+    // unbound mutate 예
+    // mutate("/api/users/me", (prev: any) => ({ ok: !prev.ok }), false);
+    // 만약 단순히 fetch 만 하고 싶다면 다음과 같이 사용할 수도 있습니다.
+    // 이 경우에는 데이터만 갱신하는 효과가 있습니다.
+    // mutate("/api/users/me")
 
     // 실제로 백엔드의 데이터를 갱신할 요청을 백엔드에 보냅니다.
     toggleFav({});

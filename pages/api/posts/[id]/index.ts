@@ -8,7 +8,8 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const {
-    query: { id }
+    query: { id },
+    session: { user }
   } = req;
 
   const post = await client.post.findUnique({
@@ -45,10 +46,23 @@ async function handler(
     }
   });
 
+  const isWondering = Boolean(
+    await client.wondering.findFirst({
+      where: {
+        postId: +id.toString(),
+        userId: user?.id
+      },
+      select: {
+        id: true
+      }
+    })
+  );
+
   if (post) {
     res.status(200).json({
       ok: true,
-      post
+      post,
+      isWondering
     });
   } else {
     res.status(404).json({

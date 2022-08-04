@@ -12,26 +12,55 @@ async function handler(
     session: { user }
   } = req;
 
-  const post = await client.post.create({
-    data: {
-      question: question,
-      user: {
-        connect: {
-          id: user?.id
+  // 등록
+  if (req.method === "POST") {
+    const post = await client.post.create({
+      data: {
+        question: question,
+        user: {
+          connect: {
+            id: user?.id
+          }
         }
       }
-    }
-  });
+    });
 
-  res.status(201).json({
-    ok: true,
-    post
-  });
+    res.status(201).json({
+      ok: true,
+      post
+    });
+  }
+
+  // 목록 조회
+  if (req.method === "GET") {
+    const posts = await client.post.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            avatar: true
+          }
+        },
+        _count: {
+          select: {
+            wonderings: true,
+            answers: true
+          }
+        }
+      }
+    });
+
+    res.status(200).json({
+      ok: true,
+      posts
+    });
+  }
 }
 
 export default apiSessionHandler(
   apiHandler({
-    methods: ["POST"],
+    methods: ["POST", "GET"],
     handler
   })
 );

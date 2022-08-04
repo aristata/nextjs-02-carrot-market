@@ -4,6 +4,7 @@ import Link from "next/link";
 import FloatingButton from "@components/floating-button";
 import useSWR from "swr";
 import { Post, User } from "@prisma/client";
+import useCoords from "@libs/frontend/useCoords";
 
 interface PostWithIncludes extends Post {
   user: User;
@@ -17,63 +18,82 @@ interface PostsResponse {
   posts: PostWithIncludes[];
 }
 const Community: NextPage = () => {
-  const { data } = useSWR<PostsResponse>(`/api/posts`);
+  // 위치 정보 가져 오기
+  const { latitude, longitude } = useCoords();
+
+  // 포스트 목록 조회(위치 정보 포함)
+  const { data } = useSWR<PostsResponse>(
+    `/api/posts?latitude=${latitude}&longitude=${longitude}`
+  );
   return (
     <Layout title="동네생활" hasTabBar>
       <div className="py-10 space-y-8">
-        {data?.posts.map((post) => (
-          <Link href={`/community/${post.id}`} key={post.id}>
-            <a className={"flex flex-col items-start pt-4 cursor-pointer"}>
-              <span className="flex ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                동네질문
-              </span>
-              <div className="mt-2 px-4 text-gray-700">
-                <span className="text-orange-500 font-medium">Q.</span>
-                {post.question}
-              </div>
-              <div className="mt-5 px-4 flex items-center justify-between w-full text-gray-500 font-medium text-xs">
-                <span>{post.user.name}</span>
-                <span>{post.createdAt.toString()}</span>
-              </div>
-              <div className="flex px-4 space-x-5 mt-3 text-gray-700 py-2.5 border-t border-b-[2px]  w-full">
-                <span className="flex space-x-2 items-center text-sm">
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    ></path>
-                  </svg>
-                  <span>궁금해요 {post._count.wonderings}</span>
+        {data && data.posts.length > 0 ? (
+          data.posts.map((post) => (
+            <Link href={`/community/${post.id}`} key={post.id}>
+              <a className={"flex flex-col items-start pt-4 cursor-pointer"}>
+                <span className="flex ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                  동네질문
                 </span>
-                <span className="flex space-x-2 items-center text-sm">
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                    ></path>
-                  </svg>
-                  <span>답변 {post._count.answers}</span>
-                </span>
-              </div>
-            </a>
-          </Link>
-        ))}
+                <div className="mt-2 px-4 text-gray-700">
+                  <span className="text-orange-500 font-medium">Q.</span>
+                  {post.question}
+                </div>
+                <div className="mt-5 px-4 flex items-center justify-between w-full text-gray-500 font-medium text-xs">
+                  <span>{post.user.name}</span>
+                  <span>{post.createdAt.toString()}</span>
+                </div>
+                <div className="flex px-4 space-x-5 mt-3 text-gray-700 py-2.5 border-t border-b-[2px]  w-full">
+                  <span className="flex space-x-2 items-center text-sm">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                    <span>궁금해요 {post._count.wonderings}</span>
+                  </span>
+                  <span className="flex space-x-2 items-center text-sm">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                      ></path>
+                    </svg>
+                    <span>답변 {post._count.answers}</span>
+                  </span>
+                </div>
+              </a>
+            </Link>
+          ))
+        ) : (
+          <>
+            <div className="py-10 flex justify-center">
+              <h2 className="text-rose-400 text-3xl">포스트가 없습니다</h2>
+            </div>
+            <div>
+              <p>현재 위치</p>
+              <p>위도 : {latitude}</p>
+              <p>경도 : {longitude}</p>
+            </div>
+          </>
+        )}
         <FloatingButton href="/community/write">
           <svg
             className="w-6 h-6"

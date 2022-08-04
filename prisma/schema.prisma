@@ -13,19 +13,20 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  phone      String?     @unique
-  email      String?     @unique
-  name       String
-  avatar     String?
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  tokens     Token[]
-  products   Product[]
-  favorites  Favorite[]
-  posts      Post[]
-  answers    Answer[]
-  wonderings Wondering[]
+  id          Int         @id @default(autoincrement())
+  phone       String?     @unique
+  email       String?     @unique
+  name        String
+  avatar      String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  searchRange Float       @default(0.01)
+  tokens      Token[]
+  products    Product[]
+  favorites   Favorite[]
+  posts       Post[]
+  answers     Answer[]
+  wonderings  Wondering[]
 }
 
 model Token {

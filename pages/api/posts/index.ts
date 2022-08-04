@@ -42,8 +42,8 @@ async function handler(
 
     const parsedLatitude = parseFloat(latitude.toString());
     const parsedLongitude = parseFloat(longitude.toString());
-    console.log("parsedLatitude = ", parsedLatitude);
-    console.log("parsedLongitude = ", parsedLongitude);
+    // console.log("parsedLatitude = ", parsedLatitude);
+    // console.log("parsedLongitude = ", parsedLongitude);
 
     // 검색 범위 조회 및 설정
     const foundUser = await client.user.findUnique({
@@ -54,7 +54,7 @@ async function handler(
         searchRange: true
       }
     });
-    console.log("foundUser = ", foundUser);
+    // console.log("foundUser = ", foundUser);
 
     let searchRange: number;
     if (!foundUser || !foundUser.searchRange) {
@@ -62,7 +62,7 @@ async function handler(
     } else {
       searchRange = foundUser.searchRange;
     }
-    console.log("searchRange = ", searchRange);
+    // console.log("searchRange = ", searchRange);
 
     // 포스트 조회
     const posts = await client.post.findMany({

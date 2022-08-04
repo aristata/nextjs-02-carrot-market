@@ -22,8 +22,13 @@ const Community: NextPage = () => {
   const { latitude, longitude } = useCoords();
 
   // 포스트 목록 조회(위치 정보 포함)
+  // 페이지 처음 실행될 땐 null 값으로 조회가 되기 때문에 에러가 발생한다
+  // 에러를 방지하기 위해서 null 체크를 해준다
+  // null 값으로 조회되는 이유는 nextjs 에서 백단에서 useEffect 가 동작하지 않고, 브라우저가 실행되어서야 동작하기 때문이다
   const { data } = useSWR<PostsResponse>(
-    `/api/posts?latitude=${latitude}&longitude=${longitude}`
+    latitude && longitude
+      ? `/api/posts?latitude=${latitude}&longitude=${longitude}`
+      : null
   );
   return (
     <Layout title="동네생활" hasTabBar>

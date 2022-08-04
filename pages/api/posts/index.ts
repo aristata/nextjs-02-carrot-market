@@ -8,7 +8,7 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const {
-    body: { question },
+    body: { question, latitude, longitude },
     session: { user }
   } = req;
 
@@ -17,6 +17,8 @@ async function handler(
     const post = await client.post.create({
       data: {
         question: question,
+        latitude,
+        longitude,
         user: {
           connect: {
             id: user?.id

@@ -7,6 +7,7 @@ import { useForm, FieldErrorsImpl } from "react-hook-form";
 import useMutation from "@libs/frontend/useMutation";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import useCoords from "@libs/frontend/useCoords";
 
 interface WriteForm {
   question: string;
@@ -18,21 +19,30 @@ interface WriteResponse {
 }
 
 const Write: NextPage = () => {
+  // 라우터
+  const router = useRouter();
+
+  // 스테이트
+  // 위치 정보
+  const { latitude, longitude } = useCoords();
+
+  // 폼
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<WriteForm>();
-  const router = useRouter();
-  const [post, { loading, data }] = useMutation<WriteResponse>("/api/posts");
 
   const onValid = (data: WriteForm) => {
     if (loading) return;
-    post(data);
+    post({ ...data, latitude, longitude }); // 포스트 데이터를 전송할 때, 위도와 경도 데이터를 함께 전송한다
   };
   const onInvalid = (error: FieldErrorsImpl) => {
     console.error(error);
   };
+
+  // 뮤테이션
+  const [post, { loading, data }] = useMutation<WriteResponse>("/api/posts");
 
   useEffect(() => {
     if (data && data.ok) {

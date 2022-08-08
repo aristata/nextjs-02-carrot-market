@@ -18,7 +18,11 @@ async function handler(
       }
     },
     include: {
-      product: true
+      product: {
+        include: {
+          _count: true
+        }
+      }
     }
   });
 

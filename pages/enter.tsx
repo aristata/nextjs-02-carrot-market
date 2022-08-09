@@ -70,7 +70,7 @@ const Enter: NextPage = () => {
                 type="text"
                 required
               />
-              <Button text={tokenLoading ? "Loading" : "Confirm Token"} />
+              <Button loading={tokenLoading} text="Confirm Token" />
             </form>
           </>
         ) : (
@@ -128,10 +128,10 @@ const Enter: NextPage = () => {
                 />
               ) : null}
               {method === "email" ? (
-                <Button text={loading ? "Loading" : "Get login link"} />
+                <Button loading={loading} text="Get login link" />
               ) : null}
               {method === "phone" ? (
-                <Button text={loading ? "Loading" : "Get one-time password"} />
+                <Button loading={loading} text="Get one-time password" />
               ) : null}
             </form>
           </>

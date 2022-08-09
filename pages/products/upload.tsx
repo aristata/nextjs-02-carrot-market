@@ -77,7 +77,7 @@ const ItemUpload: NextPage = () => {
           name="description"
           required
         />
-        <Button text={loading ? "Loading..." : "Upload item"} />
+        <Button loading={loading} text="Upload item" />
       </form>
     </Layout>
   );

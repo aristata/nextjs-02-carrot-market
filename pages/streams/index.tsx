@@ -8,7 +8,7 @@ const Live: NextPage = () => {
     <Layout title="라이브" hasTabBar>
       <div className="py-10 space-y-4 divide-y-2">
         {[1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
-          <Link key={i} href={`/live/${i}`}>
+          <Link key={i} href={`/streams/${i}`}>
             <a className="pt-4 block  px-4">
               <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
               <h1 className="text-2xl mt-2 font-bold text-gray-900">
@@ -17,7 +17,7 @@ const Live: NextPage = () => {
             </a>
           </Link>
         ))}
-        <FloatingButton href="/live/create">
+        <FloatingButton href="/streams/create">
           <svg
             className="w-6 h-6"
             fill="none"

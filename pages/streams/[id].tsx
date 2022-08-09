@@ -3,17 +3,22 @@ import Layout from "@components/layout";
 import Message from "@components/message";
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import { Stream, StreamMessage, User } from "@prisma/client";
+import { Stream, User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import { useEffect } from "react";
 import useUser from "@libs/client/useUser";
 
-interface StreamMessageWithUser extends StreamMessage {
-  user: User;
+interface StreamMessage {
+  id: number;
+  message: string;
+  user: {
+    id: number;
+    avatar?: string;
+  };
 }
 interface StreamWithStreamMessages extends Stream {
-  streamMessages: StreamMessageWithUser[];
+  streamMessages: StreamMessage[];
 }
 interface StreamResponse {
   ok: boolean;

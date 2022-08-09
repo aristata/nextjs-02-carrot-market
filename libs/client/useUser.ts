@@ -5,7 +5,6 @@ import useSWR from "swr";
 export default function useUser() {
   const router = useRouter();
   const { data, error } = useSWR("/api/users/me");
-  console.log("user data = ", data);
   useEffect(() => {
     if (data && !data.ok && router.pathname !== "/enter") {
       router.replace("/enter");

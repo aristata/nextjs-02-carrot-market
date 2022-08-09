@@ -36,7 +36,7 @@ const EditProfile: NextPage = () => {
   const onValid = ({ email, phone, name }: EditProfileForm) => {
     if (loading) return;
     if (name === "" && email === "" && phone === "") {
-      setError("formErrors", {
+      return setError("formErrors", {
         message: "name, email 그리고 phone 중 하나는 반드시 입력해야 합니다."
       });
     }

@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import apiHandler, { ResponseType } from "@libs/backend/apiHandler";
-import client from "@libs/backend/prismaClient";
+import apiHandler, { ResponseType } from "@libs/server/apiHandler";
+import client from "@libs/server/prismaClient";
 import twilio from "twilio";
 import mail from "@sendgrid/mail";
-import { sesClient } from "@libs/backend/awsSesClient";
+import { sesClient } from "@libs/server/awsSesClient";
 import { SendEmailCommand } from "@aws-sdk/client-ses";
 
 mail.setApiKey(process.env.SENDGRID_API_KEY!);

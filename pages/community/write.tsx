@@ -4,10 +4,10 @@ import TextArea from "@components/textarea";
 import Button from "@components/button";
 import { Post } from "@prisma/client";
 import { useForm, FieldErrorsImpl } from "react-hook-form";
-import useMutation from "@libs/frontend/useMutation";
+import useMutation from "@libs/client/useMutation";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import useCoords from "@libs/frontend/useCoords";
+import useCoords from "@libs/client/useCoords";
 
 interface WriteForm {
   question: string;

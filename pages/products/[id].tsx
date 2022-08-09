@@ -6,8 +6,8 @@ import useSWR, { useSWRConfig } from "swr";
 import { useEffect, useState } from "react";
 import { Product, User } from "@prisma/client";
 import Link from "next/link";
-import useMutation from "@libs/frontend/useMutation";
-import { cls } from "@libs/frontend/utils";
+import useMutation from "@libs/client/useMutation";
+import { cls } from "@libs/client/utils";
 
 interface ProductWithUser extends Product {
   user: User;

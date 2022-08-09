@@ -4,7 +4,7 @@ import Input from "@components/input";
 import TextArea from "@components/textarea";
 import Button from "@components/button";
 import { useForm } from "react-hook-form";
-import useMutation from "@libs/frontend/useMutation";
+import useMutation from "@libs/client/useMutation";
 import { Product } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useEffect } from "react";

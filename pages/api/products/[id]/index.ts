@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import apiHandler, { ResponseType } from "@libs/backend/apiHandler";
-import client from "@libs/backend/prismaClient";
-import { apiSessionHandler } from "@libs/backend/apiSessionHandler";
+import apiHandler, { ResponseType } from "@libs/server/apiHandler";
+import client from "@libs/server/prismaClient";
+import { apiSessionHandler } from "@libs/server/apiSessionHandler";
 
 async function handler(
   req: NextApiRequest,

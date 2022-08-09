@@ -4,7 +4,7 @@ import Link from "next/link";
 import FloatingButton from "@components/floating-button";
 import useSWR from "swr";
 import { Post, User } from "@prisma/client";
-import useCoords from "@libs/frontend/useCoords";
+import useCoords from "@libs/client/useCoords";
 
 interface PostWithIncludes extends Post {
   user: User;

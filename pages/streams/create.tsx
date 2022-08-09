@@ -49,7 +49,10 @@ const CreateStream: NextPage = () => {
           type="text"
         />
         <Input
-          register={register("price", { required: "가격을 입력해 주세요" })}
+          register={register("price", {
+            required: "가격을 입력해 주세요",
+            valueAsNumber: true
+          })}
           required
           label="Price"
           name="price"

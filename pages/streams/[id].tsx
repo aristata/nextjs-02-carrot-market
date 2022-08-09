@@ -55,11 +55,11 @@ const LiveDetail: NextPage = () => {
               <Message message="I want ￦20,000" reversed />
               <Message message="미쳤어" />
             </div>
-            <form
-              onSubmit={handleSubmit(onValid)}
-              className="fixed py-2 bg-white  bottom-0 inset-x-0"
-            >
-              <div className="flex relative max-w-md items-center  w-full mx-auto">
+            <div className="fixed py-2 bg-white  bottom-0 inset-x-0">
+              <form
+                onSubmit={handleSubmit(onValid)}
+                className="flex relative max-w-md items-center  w-full mx-auto"
+              >
                 <input
                   {...register("message", { required: true })}
                   type="text"
@@ -71,8 +71,8 @@ const LiveDetail: NextPage = () => {
                     &rarr;
                   </button>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       ) : (

@@ -3,13 +3,21 @@ import Layout from "@components/layout";
 import Message from "@components/message";
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import { Stream, StreamMessage } from "@prisma/client";
+import { Stream, StreamMessage, User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
+import { useEffect } from "react";
+import useUser from "@libs/client/useUser";
 
+interface StreamMessageWithUser extends StreamMessage {
+  user: User;
+}
+interface StreamWithStreamMessages extends Stream {
+  streamMessages: StreamMessageWithUser[];
+}
 interface StreamResponse {
   ok: boolean;
-  stream: Stream;
+  stream: StreamWithStreamMessages;
 }
 interface StreamMessageForm {
   message: string;
@@ -19,21 +27,30 @@ interface StreamMessageResponse {
   ok: boolean;
   streamMessage: StreamMessage;
 }
+
 const LiveDetail: NextPage = () => {
+  const { user } = useUser();
   const router = useRouter();
-  const { data } = useSWR<StreamResponse>(
+  const { data, mutate } = useSWR<StreamResponse>(
     router.query.id ? `/api/streams/${router.query.id}` : null
   );
   const { register, handleSubmit, reset } = useForm<StreamMessageForm>();
   const [
     postStreamMessage,
     { data: streamMessageData, loading: streamMessageLoading }
-  ] = useMutation(`/api/streams/${router.query.id}/messages`);
+  ] = useMutation<StreamMessageResponse>(
+    `/api/streams/${router.query.id}/messages`
+  );
   const onValid = (form: StreamMessageForm) => {
     if (streamMessageLoading) return;
     reset();
     postStreamMessage(form);
   };
+  useEffect(() => {
+    if (streamMessageData && streamMessageData.ok) {
+      mutate();
+    }
+  }, [streamMessageData, mutate]);
   return (
     <Layout canGoBack title="라이브 상세보기">
       {data && data.ok ? (
@@ -51,9 +68,13 @@ const LiveDetail: NextPage = () => {
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
             <div className="py-10 pb-16 h-[50vh] overflow-y-scroll  px-4 space-y-4">
-              <Message message="Hi how much are you selling them for?" />
-              <Message message="I want ￦20,000" reversed />
-              <Message message="미쳤어" />
+              {data.stream.streamMessages.map((message) => (
+                <Message
+                  key={message.id}
+                  message={message.message}
+                  reversed={message.user.id === user?.id}
+                />
+              ))}
             </div>
             <div className="fixed py-2 bg-white  bottom-0 inset-x-0">
               <form

@@ -39,7 +39,7 @@ const CreateStream: NextPage = () => {
     }
   }, [data, router]);
   return (
-    <Layout canGoBack title="Streams">
+    <Layout canGoBack title="Create Stream">
       <form onSubmit={handleSubmit(onValid)} className=" space-y-4 py-10 px-4">
         <Input
           register={register("title", { required: "제목을 입력해 주세요" })}

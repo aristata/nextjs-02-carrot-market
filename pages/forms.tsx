@@ -57,7 +57,7 @@ export default function Forms() {
     setError,
     setValue,
     reset,
-    resetField,
+    resetField
   } = useForm<LoginForm>({ mode: "onChange" });
   const onValid = (data: LoginForm) => {
     console.log("im valid!!!");
@@ -75,20 +75,20 @@ export default function Forms() {
           required: "The username is required.",
           minLength: {
             value: 5,
-            message: "The username should be longer than 5 chars.",
-          },
+            message: "The username should be longer than 5 chars."
+          }
         })}
       />
       {errors.username?.message}
       <input
         type={"email"}
         placeholder="Email"
-        {...register("email", {
+        {...register("name", {
           required: "The email is required.",
           validate: {
             notGmail: (value) =>
-              !value.includes("@gmail.com") || "Gmail is not allowed.",
-          },
+              !value.includes("@gmail.com") || "Gmail is not allowed."
+          }
         })}
         className={errors.email ? "bg-red-300 border-red-500" : ""}
       />

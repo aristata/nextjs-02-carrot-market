@@ -110,7 +110,7 @@ const Enter: NextPage = () => {
             >
               {method === "email" ? (
                 <Input
-                  register={register("email")}
+                  register={register("name")}
                   name="email"
                   label="Email address"
                   type="email"

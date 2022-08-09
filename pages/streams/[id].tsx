@@ -37,7 +37,8 @@ const LiveDetail: NextPage = () => {
   const { user } = useUser();
   const router = useRouter();
   const { data, mutate } = useSWR<StreamResponse>(
-    router.query.id ? `/api/streams/${router.query.id}` : null
+    router.query.id ? `/api/streams/${router.query.id}` : null,
+    { refreshInterval: 3000 }
   );
   const { register, handleSubmit, reset } = useForm<StreamMessageForm>();
   const [
@@ -49,13 +50,35 @@ const LiveDetail: NextPage = () => {
   const onValid = (form: StreamMessageForm) => {
     if (streamMessageLoading) return;
     reset();
+    mutate(
+      (prev) =>
+        prev &&
+        ({
+          ...prev,
+          stream: {
+            ...prev.stream,
+            streamMessages: [
+              ...prev.stream.streamMessages,
+              {
+                id: Date.now(),
+                message: form.message,
+                user: {
+                  ...user
+                }
+              }
+            ]
+          }
+        } as any),
+      false
+    );
     postStreamMessage(form);
   };
-  useEffect(() => {
-    if (streamMessageData && streamMessageData.ok) {
-      mutate();
-    }
-  }, [streamMessageData, mutate]);
+  // stream 전체 갱신
+  // useEffect(() => {
+  //   if (streamMessageData && streamMessageData.ok) {
+  //     mutate();
+  //   }
+  // }, [streamMessageData, mutate]);
   return (
     <Layout canGoBack title="라이브 상세보기">
       {data && data.ok ? (

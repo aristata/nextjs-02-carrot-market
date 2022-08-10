@@ -52,7 +52,7 @@ const Enter: NextPage = () => {
     if (tokenData?.ok) {
       router.push("/");
     }
-  }, [tokenData]);
+  }, [tokenData, router]);
   return (
     <div className="mt-16 px-4">
       <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
@@ -110,7 +110,7 @@ const Enter: NextPage = () => {
             >
               {method === "email" ? (
                 <Input
-                  register={register("name")}
+                  register={register("email")}
                   name="email"
                   label="Email address"
                   type="email"

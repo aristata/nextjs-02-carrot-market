@@ -38,12 +38,12 @@ async function handler(
     }
   });
   if (phone) {
-    /* const twilioResponse = await twilioClient.messages.create({
-      messagingServiceSid: process.env.TWILIO_MS_SID,
-      to: process.env.MY_PHONE!,
-      body: `당신의 로그인 토큰은 ${randomNumber} 입니다.`
-    });
-    console.log(twilioResponse); */
+    // const twilioResponse = await twilioClient.messages.create({
+    //   messagingServiceSid: process.env.TWILIO_MS_SID,
+    //   to: process.env.MY_PHONE!,
+    //   body: `당신의 로그인 토큰은 ${randomNumber} 입니다.`
+    // });
+    // console.log(twilioResponse);
   } else if (email) {
     /* const emailResponse = await mail.send({
       from: "aristataetc@gmail.com",

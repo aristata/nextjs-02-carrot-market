@@ -20,6 +20,7 @@ interface EditProfileResponse {
 }
 const EditProfile: NextPage = () => {
   const { user } = useUser();
+  const [avatarPreviewURL, setAvatarPreviewURL] = useState("");
   const {
     register,
     handleSubmit,
@@ -32,6 +33,7 @@ const EditProfile: NextPage = () => {
     if (user?.name) setValue("name", user.name);
     if (user?.email) setValue("email", user.email);
     if (user?.phone) setValue("phone", user.phone);
+    if (user?.avatar) setAvatarPreviewURL(user.avatar);
   }, [user, setValue]);
   const [editProfile, { data, loading }] =
     useMutation<EditProfileResponse>(`/api/users/me`);
@@ -45,18 +47,23 @@ const EditProfile: NextPage = () => {
     // 아바타 처리
     if (avatar && avatar.length > 0 && user) {
       // 1. Cloud Flare 에 URL 요청하기
-      const { id, uploadURL } = await (await fetch(`/api/files`)).json();
+      const { uploadURL } = await (await fetch(`/api/files`)).json();
 
       // 2. URL 에 파일 업로드 하기
       const imageForm = new FormData();
       const fileName = `${user.id}_${Date.now()}`;
       imageForm.append("file", avatar[0], fileName);
-      const imageUploadResult = await fetch(uploadURL, {
-        method: "POST",
-        body: imageForm
-      });
-      console.log("image upload result ", imageUploadResult);
-      // editProfile({ name, email, phone, avatar });
+      const {
+        result: { id }
+      } = await (
+        await fetch(uploadURL, {
+          method: "POST",
+          body: imageForm
+        })
+      ).json();
+
+      const avatarUrl = `https://imagedelivery.net/lsllCjR7DyIdCm2ctTC0DQ/${id}/public`;
+      editProfile({ name, email, phone, avatarUrl });
     } else {
       editProfile({ name, email, phone });
     }
@@ -66,7 +73,7 @@ const EditProfile: NextPage = () => {
       setError("formErrors", { message: data.errorMessage });
     }
   }, [data, setError]);
-  const [avatarPreviewURL, setAvatarPreviewURL] = useState("");
+
   const avatar = watch("avatar");
   useEffect(() => {
     if (avatar && avatar.length > 0) {

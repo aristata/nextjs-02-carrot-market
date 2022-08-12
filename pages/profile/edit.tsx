@@ -42,14 +42,20 @@ const EditProfile: NextPage = () => {
         message: "name, email 그리고 phone 중 하나는 반드시 입력해야 합니다."
       });
     }
-    if (avatar && avatar.length > 0) {
-      // 아바타 처리
+    // 아바타 처리
+    if (avatar && avatar.length > 0 && user) {
       // 1. Cloud Flare 에 URL 요청하기
-      const cloudflareRequest = await (await fetch(`/api/files`)).json();
-      console.log(cloudflareRequest);
-      return;
+      const { id, uploadURL } = await (await fetch(`/api/files`)).json();
 
       // 2. URL 에 파일 업로드 하기
+      const imageForm = new FormData();
+      const fileName = `${user.id}_${Date.now()}`;
+      imageForm.append("file", avatar[0], fileName);
+      const imageUploadResult = await fetch(uploadURL, {
+        method: "POST",
+        body: imageForm
+      });
+      console.log("image upload result ", imageUploadResult);
       // editProfile({ name, email, phone, avatar });
     } else {
       editProfile({ name, email, phone });

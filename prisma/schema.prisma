@@ -164,6 +164,9 @@ model Stream {
   price          Int
   description    String          @db.MediumText
   streamMessages StreamMessage[]
+  cloudflareId   String
+  cloudflareUrl  String
+  cloudflareKey  String
 }
 
 model StreamMessage {

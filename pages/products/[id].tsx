@@ -89,9 +89,23 @@ const ProductDetail: NextPage = () => {
     <Layout canGoBack>
       <div className="p-4">
         <div className="mb-8">
-          <div className="h-96 bg-slate-300" />
+          {data?.product?.imageUrl ? (
+            <img
+              src={`${data.product.imageUrl}/product`}
+              className="h-96 bg-slate-300"
+            />
+          ) : (
+            <div className="h-96 bg-slate-300" />
+          )}
           <div className="flex items-center space-x-3 py-3 border-b border-t cursor-pointer">
-            <div className="w-12 h-12 bg-slate-300 rounded-full" />
+            {data?.product?.user?.avatar ? (
+              <img
+                src={data.product.user.avatar}
+                className="w-12 h-12 bg-slate-300 rounded-full"
+              />
+            ) : (
+              <div className="w-12 h-12 bg-slate-300 rounded-full" />
+            )}
             <div>
               <p className="text-sm font-medium text-gray-700">
                 {isLoading ? "Loading..." : data?.product?.user?.name}

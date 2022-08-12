@@ -5,14 +5,28 @@ interface ItemProps {
   id: number;
   price: number;
   hearts: number;
+  imageURL: string;
 }
 
-export default function Item({ title, price, hearts, id }: ItemProps) {
+export default function Item({
+  title,
+  price,
+  hearts,
+  id,
+  imageURL
+}: ItemProps) {
   return (
     <Link href={`/products/${id}`}>
       <a className="flex px-4 pt-5 cursor-pointer justify-between">
         <div className="flex space-x-4">
-          <div className="w-20 h-20 bg-gray-400 rounded-md" />
+          {imageURL ? (
+            <img
+              src={imageURL + "/productPreview"}
+              className="w-20 h-20 bg-gray-400 rounded-md"
+            />
+          ) : (
+            <div className="w-20 h-20 bg-gray-400 rounded-md" />
+          )}
           <div className="pt-2 flex flex-col">
             <h3 className="text-sm font-medium text-gray-900">{title}</h3>
             <span className="font-medium mt-1 text-gray-900">₩{price}</span>

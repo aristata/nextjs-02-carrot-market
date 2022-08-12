@@ -23,7 +23,7 @@ async function handler(
     });
   } else if (req.method === "POST") {
     const {
-      body: { name, price, description },
+      body: { name, price, description, photoUrl },
       session: { user }
     } = req;
 
@@ -32,7 +32,7 @@ async function handler(
         name,
         price: +price,
         description,
-        imageUrl: "xx.com",
+        imageUrl: photoUrl,
         user: {
           connect: {
             id: user?.id

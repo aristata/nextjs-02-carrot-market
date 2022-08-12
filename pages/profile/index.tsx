@@ -113,10 +113,19 @@ const Profile: NextPage = () => {
             </a>
           </Link>
         </div>
+        {/* 리뷰 목록 */}
         {data?.reviews.map((review) => (
           <div key={review.id} className="mt-12">
             <div className="flex space-x-4 items-center">
-              <div className="w-12 h-12 rounded-full bg-slate-500" />
+              {review.createdBy.avatar ? (
+                <img
+                  src={review.createdBy.avatar}
+                  className="w-12 h-12 rounded-full bg-slate-500"
+                />
+              ) : (
+                <div className="w-12 h-12 rounded-full bg-slate-500" />
+              )}
+
               <div>
                 <h4 className="text-sm font-bold text-gray-800">
                   {review.createdBy.name}

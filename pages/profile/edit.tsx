@@ -35,14 +35,25 @@ const EditProfile: NextPage = () => {
   }, [user, setValue]);
   const [editProfile, { data, loading }] =
     useMutation<EditProfileResponse>(`/api/users/me`);
-  const onValid = ({ email, phone, name, avatar }: EditProfileForm) => {
+  const onValid = async ({ email, phone, name, avatar }: EditProfileForm) => {
     if (loading) return;
     if (name === "" && email === "" && phone === "") {
       return setError("formErrors", {
         message: "name, email 그리고 phone 중 하나는 반드시 입력해야 합니다."
       });
     }
-    editProfile({ name, email, phone });
+    if (avatar && avatar.length > 0) {
+      // 아바타 처리
+      // 1. Cloud Flare 에 URL 요청하기
+      const cloudflareRequest = await (await fetch(`/api/files`)).json();
+      console.log(cloudflareRequest);
+      return;
+
+      // 2. URL 에 파일 업로드 하기
+      // editProfile({ name, email, phone, avatar });
+    } else {
+      editProfile({ name, email, phone });
+    }
   };
   useEffect(() => {
     if (data && !data.ok && data.errorMessage) {

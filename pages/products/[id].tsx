@@ -91,10 +91,14 @@ const ProductDetail: NextPage = () => {
       <div className="p-4">
         <div className="mb-8">
           {data?.product?.imageUrl ? (
-            <img
-              src={`${data.product.imageUrl}/product`}
-              className="h-96 bg-slate-300"
-            />
+            <div className="relative h-96">
+              <Image
+                src={`${data.product.imageUrl}/product`}
+                className="bg-slate-300 object-cover"
+                layout="fill"
+                alt="product image"
+              />
+            </div>
           ) : (
             <div className="h-96 bg-slate-300" />
           )}
@@ -105,6 +109,7 @@ const ProductDetail: NextPage = () => {
                 className="w-12 h-12 bg-slate-300 rounded-full"
                 width={48}
                 height={48}
+                alt="avatar image"
               />
             ) : (
               <div className="w-12 h-12 bg-slate-300 rounded-full" />

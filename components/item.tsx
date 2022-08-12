@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 interface ItemProps {
@@ -20,9 +21,12 @@ export default function Item({
       <a className="flex px-4 pt-5 cursor-pointer justify-between">
         <div className="flex space-x-4">
           {imageURL ? (
-            <img
+            <Image
               src={imageURL + "/productPreview"}
               className="w-20 h-20 bg-gray-400 rounded-md"
+              alt="product preview"
+              width={80}
+              height={80}
             />
           ) : (
             <div className="w-20 h-20 bg-gray-400 rounded-md" />

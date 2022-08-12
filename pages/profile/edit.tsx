@@ -62,7 +62,7 @@ const EditProfile: NextPage = () => {
         })
       ).json();
 
-      const avatarUrl = `https://imagedelivery.net/lsllCjR7DyIdCm2ctTC0DQ/${id}/public`;
+      const avatarUrl = `https://imagedelivery.net/lsllCjR7DyIdCm2ctTC0DQ/${id}/avatar`;
       editProfile({ name, email, phone, avatarUrl });
     } else {
       editProfile({ name, email, phone });

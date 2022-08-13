@@ -9,7 +9,8 @@ async function handler(
 ) {
   if (req.method === "GET") {
     const {
-      query: { id }
+      query: { id },
+      session: { user }
     } = req;
     const stream = await client.stream.findUnique({
       where: {
@@ -30,6 +31,13 @@ async function handler(
         }
       }
     });
+
+    // 스트림 소유주가 아니면 URL 및 KEY 를 감추도록 한다
+    if (stream && stream.userId !== user?.id) {
+      stream.cloudflareKey = "스트림 소유주에게만 노출됩니다";
+      stream.cloudflareUrl = "스트림 소유주에게만 노출됩니다";
+    }
+
     if (stream) {
       return res.json({ ok: true, stream });
     } else {

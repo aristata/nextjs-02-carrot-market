@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "@components/button";
 import Input from "@components/input";
@@ -9,8 +9,19 @@ import { useRouter } from "next/router";
 // import Bs from "@components/bs";
 import dynamic from "next/dynamic";
 
-/* 다이나믹 임포트는 유저가 해당코드를 볼때 임포트가 이루어진다 */
+/* 다이나믹 임포트는 유저가 해당코드를 볼때 임포트가 이루어진다*/
 const Bs = dynamic(() => import("@components/bs"), { ssr: false });
+
+/* 로딩 속성을 사용하면 로딩중에 다른 컴포넌트를 보여줄 수 있다
+  하지만 이 방법은 스크립트 코드에 ui 코드가 들어가기 때문에 차라리 suspense 기능을 사용하는 것을 추천한다
+*/
+// const Bs = dynamic(
+//   () =>
+//     new Promise((resolve) =>
+//       setTimeout(() => resolve(import("@components/bs")), 10000)
+//     ),
+//   { ssr: false, suspense: true, loading: () => <span>loading</span> }
+// );
 
 interface EnterForm {
   email?: string;
@@ -124,7 +135,9 @@ const Enter: NextPage = () => {
               ) : null}
               {method === "phone" ? (
                 <>
-                  <Bs />
+                  <Suspense fallback={<button>loading!!</button>}>
+                    <Bs />
+                  </Suspense>
                   <Input
                     register={register("phone")}
                     name="phone"

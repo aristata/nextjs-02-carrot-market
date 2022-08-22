@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 // import Bs from "@components/bs";
 import dynamic from "next/dynamic";
 
+/* 다이나믹 임포트는 유저가 해당코드를 볼때 임포트가 이루어진다 */
 const Bs = dynamic(() => import("@components/bs"), { ssr: false });
 
 interface EnterForm {

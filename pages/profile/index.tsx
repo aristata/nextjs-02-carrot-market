@@ -1,10 +1,13 @@
-import type { NextPage } from "next";
+import type { NextPage, NextPageContext } from "next";
 import Link from "next/link";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
-import useSWR from "swr";
+import useSWR, { SWRConfig } from "swr";
 import { Review, User } from "@prisma/client";
 import { cls } from "@libs/client/utils";
+import Image from "next/image";
+import { ssrSessionHandler } from "@libs/server/apiSessionHandler";
+import client from "@libs/server/prismaClient";
 
 interface ReviewWithIncludes extends Review {
   createdBy: User;
@@ -25,9 +28,10 @@ const Profile: NextPage = () => {
       <div className="px-4">
         <div className="flex items-center mt-4 space-x-3">
           {user?.avatar ? (
-            <img
+            <Image
               src={user.avatar}
               className="w-16 h-16 bg-slate-500 rounded-full"
+              alt="avatar image"
             />
           ) : (
             <div className="w-16 h-16 bg-slate-500 rounded-full" />
@@ -118,9 +122,10 @@ const Profile: NextPage = () => {
           <div key={review.id} className="mt-12">
             <div className="flex space-x-4 items-center">
               {review.createdBy.avatar ? (
-                <img
+                <Image
                   src={review.createdBy.avatar}
                   className="w-12 h-12 rounded-full bg-slate-500"
+                  alt="avatar image"
                 />
               ) : (
                 <div className="w-12 h-12 rounded-full bg-slate-500" />
@@ -161,4 +166,31 @@ const Profile: NextPage = () => {
   );
 };
 
-export default Profile;
+const SWRPage: NextPage<{ profile: User }> = ({ profile }) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          "/api/users/me": { ok: true, profile }
+        }
+      }}
+    >
+      <Profile />
+    </SWRConfig>
+  );
+};
+
+export const getServerSideProps = ssrSessionHandler(async function ({
+  req
+}: NextPageContext) {
+  const profile = await client.user.findUnique({
+    where: { id: req?.session.user?.id }
+  });
+  return {
+    props: {
+      profile: JSON.parse(JSON.stringify(profile))
+    }
+  };
+});
+
+export default SWRPage;

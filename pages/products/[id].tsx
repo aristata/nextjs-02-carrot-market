@@ -87,7 +87,7 @@ const ProductDetail: NextPage = () => {
     toggleFav({});
   };
   return (
-    <Layout canGoBack>
+    <Layout canGoBack title={`상품 상세보기 : ${router.query.id}`}>
       <div className="p-4">
         <div className="mb-8">
           {data?.product?.imageUrl ? (

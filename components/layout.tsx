@@ -2,6 +2,7 @@ import React from "react";
 import { cls } from "@libs/client/utils";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 interface LayoutProps {
   title?: string;
@@ -22,6 +23,9 @@ export default function Layout({
   };
   return (
     <div>
+      <Head>
+        <title>{title} | Carrot Market</title>
+      </Head>
       <div className="bg-white w-full h-12 max-w-xl font-medium text-lg text-gray-800 px-10 fixed border-b top-0 flex items-center justify-center">
         {canGoBack ? (
           <button onClick={goBack} className={"absolute left-4"}>

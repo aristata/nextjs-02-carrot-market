@@ -8,6 +8,7 @@ import { Product } from "@prisma/client";
 import useSWR from "swr";
 import Image from "next/image";
 import productIcon from "../public/icon-product.jpg";
+import client from "@libs/server/prismaClient";
 
 export interface ProductWithCount extends Product {
   _count: {
@@ -20,7 +21,7 @@ interface ProductsResponse {
   products: ProductWithCount[];
 }
 
-const Home: NextPage = () => {
+const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
   const { user, isLoading } = useUser();
   const { data } = useSWR<ProductsResponse>("/api/products");
   return (
@@ -61,5 +62,29 @@ const Home: NextPage = () => {
     </Layout>
   );
 };
+
+/**
+ * getServerSideProps()
+ * - 페이지에서 getServerSideProps 함수를 export 하면
+ *  Next.js 에서는 getServerSideProps 에서 반환된 데이터를 사용하여 해당 페이지를 미리 렌더링 한다
+ * - HTML 코드에 데이터가 삽입된 채로 화면이 그려지기 때문에 이를 서버 사이드 렌더링 (SSR) 이라고 부른다
+ * - getServerSideProps 함수를 작성할 때 그 반환 값으로 props 를 가진 object 를 반환하도록 작성해야 한다
+ */
+export async function getServerSideProps() {
+  const products = await client.product.findMany({
+    include: {
+      _count: {
+        select: {
+          favorites: true
+        }
+      }
+    }
+  });
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products))
+    }
+  };
+}
 
 export default Home;

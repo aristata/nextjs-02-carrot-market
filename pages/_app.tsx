@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <UserCheck />
         <Component {...pageProps} />
       </div>
-      <Script
+      {/* <Script
         src="https://developers.kakao.com/sdk/js/kakao.js"
         strategy="lazyOnload"
       />
@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             });
           };
         }}
-      />
+      /> */}
     </SWRConfig>
   );
 }

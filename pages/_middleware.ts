@@ -8,13 +8,11 @@ export function middleware(req: NextRequest, ev: NextFetchEvent) {
       { status: 403 }
     );
   }
-  if (
-    !req.url.includes("/api") &&
-    !req.url.includes("/enter") &&
-    !req.cookies.carrotsession
-  ) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/enter";
-    return NextResponse.redirect(url);
+  if (!req.url.includes("/api")) {
+    if (!req.cookies.carrotSession && !req.url.includes("/enter")) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/enter";
+      return NextResponse.redirect(url);
+    }
   }
 }

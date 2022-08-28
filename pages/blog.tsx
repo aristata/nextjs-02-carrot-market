@@ -11,21 +11,25 @@ interface Post {
 
 const Blog: NextPage<{ posts: Post[] }> = ({ posts }) => {
   return (
-    <Layout title="블로그">
-      <h1 className="font-semibold text-lg text-center mt-5 mb-10">
-        Latest Posts:
-      </h1>
-      {posts.map((post, index) => {
-        <div key={index} className={"mb-5"}>
-          <span className="text-lg text-red-500">{post.title}</span>
-          <div>
-            <span>
-              {post.date} / {post.category}
-            </span>
-          </div>
-        </div>;
-      })}
-    </Layout>
+    <>
+      <Layout title="블로그">
+        <>
+          <h1 className="font-semibold text-lg text-center mt-5 mb-10">
+            Latest Posts:
+          </h1>
+          {posts.map((post, index) => {
+            <div key={index} className={"mb-5"}>
+              <span className="text-lg text-red-500">{post.title}</span>
+              <div>
+                <span>
+                  {post.date} / {post.category}
+                </span>
+              </div>
+            </div>;
+          })}
+        </>
+      </Layout>
+    </>
   );
 };
 

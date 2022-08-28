@@ -13,7 +13,10 @@ async function main() {
           connect: {
             id: 1
           }
-        }
+        },
+        cloudflareId: item.toString(),
+        cloudflareUrl: item.toString(),
+        cloudflareKey: item.toString()
       }
     });
     console.log(`${item}/500`);

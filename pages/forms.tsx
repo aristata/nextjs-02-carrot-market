@@ -83,7 +83,7 @@ export default function Forms() {
       <input
         type={"email"}
         placeholder="Email"
-        {...register("name", {
+        {...register("email", {
           required: "The email is required.",
           validate: {
             notGmail: (value) =>

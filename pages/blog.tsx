@@ -4,32 +4,29 @@ import matter from "gray-matter";
 import { NextPage } from "next";
 
 interface Post {
-  title: string;
+  blogTitle: string;
   date: string;
   category: string;
 }
 
 const Blog: NextPage<{ posts: Post[] }> = ({ posts }) => {
+  console.log(posts);
   return (
-    <>
-      <Layout title="블로그">
-        <>
-          <h1 className="font-semibold text-lg text-center mt-5 mb-10">
-            Latest Posts:
-          </h1>
-          {posts.map((post, index) => {
-            <div key={index} className={"mb-5"}>
-              <span className="text-lg text-red-500">{post.title}</span>
-              <div>
-                <span>
-                  {post.date} / {post.category}
-                </span>
-              </div>
-            </div>;
-          })}
-        </>
-      </Layout>
-    </>
+    <Layout title="블로그">
+      <h1 className="font-semibold text-lg text-center mt-5 mb-10">
+        Latest Posts:
+      </h1>
+      {posts.map((post, index) => (
+        <div key={index} className="mb-5">
+          <span className="text-lg text-red-500">{post.blogTitle}</span>
+          <div>
+            <span>{post.date}</span>
+            {" / "}
+            <span>{post.category}</span>
+          </div>
+        </div>
+      ))}
+    </Layout>
   );
 };
 

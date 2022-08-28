@@ -1,5 +1,5 @@
 ---
-title: Welcome my first blog
+blogTitle: Welcome my first blog
 date: 2022.08.28
 category: thoughts
 ---

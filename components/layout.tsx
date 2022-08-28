@@ -24,7 +24,7 @@ export default function Layout({
   return (
     <div>
       <Head>
-        <title>{title} | Carrot Market</title>
+        <title>{`${title} | Carrot Market`}</title>
       </Head>
       <div className="bg-white w-full h-12 max-w-xl font-medium text-lg text-gray-800 px-10 fixed border-b top-0 flex items-center justify-center">
         {canGoBack ? (

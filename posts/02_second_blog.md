@@ -1,5 +1,5 @@
 ---
-title: 아쉬운 주말
+blogTitle: 아쉬운 주말
 date: 2022.08.28
 category: thoughts
 ---

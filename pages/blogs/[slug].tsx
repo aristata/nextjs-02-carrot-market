@@ -1,3 +1,4 @@
+import Layout from "@components/layout";
 import { readdirSync } from "fs";
 import matter from "gray-matter";
 import { GetStaticProps, NextPage } from "next";
@@ -12,8 +13,15 @@ import { unified } from "unified";
  * - Static(정적) 의 경우에는 이미 있는 데이터로 화면을 그린다
  *  - /blogs/01_first_blog, /blogs/02_second_blog
  */
-const PostDetail: NextPage<{ post: string }> = ({ post }) => {
-  return <h1>{post}</h1>;
+const PostDetail: NextPage<{ data: any; post: string }> = ({ data, post }) => {
+  return (
+    <Layout title={data.blogTitle}>
+      <div
+        className="blog-post-content"
+        dangerouslySetInnerHTML={{ __html: post }}
+      />
+    </Layout>
+  );
 };
 
 /*
@@ -50,6 +58,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     .process(content);
   return {
     props: {
+      data,
       post: value
     }
   };

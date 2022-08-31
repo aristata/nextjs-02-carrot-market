@@ -35,6 +35,7 @@ model User {
   streamMessages  StreamMessage[]
   writtenChats    ChatMessage[]   @relation(name: "writtenChats")
   receivedChats   ChatMessage[]   @relation(name: "receivedChats")
+  chat            Chat[]
 }
 
 model Token {
@@ -189,6 +190,8 @@ model Chat {
   updatedAt   DateTime      @updatedAt
   product     Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId   Int
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
   chatMessage ChatMessage[]
 }
 

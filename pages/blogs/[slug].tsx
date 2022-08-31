@@ -33,11 +33,12 @@ export function getStaticPaths() {
 }
 
 /**
- *
  * remark-html
- * - html serializing 지원을 추가하는 remark 플러그인
+ * - 마크다운 문서를 HTML 로 변경해주는 라이브러리
  * - npm i remark-html remark-parse unified
  *
+ * - 파라미터로 전달되는 slug 를 사용하여 파일을 읽어 들인 다음
+ * - 해당 파일(md 파일)을 HTML 로 변환하여 화면에 뿌려 준다
  */
 export const getStaticProps: GetStaticProps = async (ctx) => {
   // 파일 시스템에서 파일을 동기적으로 읽고 front matter 를 파싱한다

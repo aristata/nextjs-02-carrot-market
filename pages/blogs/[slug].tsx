@@ -1,5 +1,9 @@
 import { readdirSync } from "fs";
-import { NextPage } from "next";
+import matter from "gray-matter";
+import { GetStaticProps, NextPage } from "next";
+import remarkHtml from "remark-html";
+import remarkParse from "remark-parse";
+import { unified } from "unified";
 
 /**
  * PostDetail 파일은 static html 파일을 렌더링 할 것이다
@@ -8,8 +12,8 @@ import { NextPage } from "next";
  * - Static(정적) 의 경우에는 이미 있는 데이터로 화면을 그린다
  *  - /blogs/01_first_blog, /blogs/02_second_blog
  */
-const PostDetail: NextPage = () => {
-  return <h1>안녕</h1>;
+const PostDetail: NextPage<{ post: string }> = ({ post }) => {
+  return <h1>{post}</h1>;
 };
 
 /*
@@ -28,10 +32,26 @@ export function getStaticPaths() {
   };
 }
 
-export function getStaticProps() {
+/**
+ *
+ * remark-html
+ * - html serializing 지원을 추가하는 remark 플러그인
+ * - npm i remark-html remark-parse unified
+ *
+ */
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  // 파일 시스템에서 파일을 동기적으로 읽고 front matter 를 파싱한다
+  // matter() 와 동일한 객체를 반환한다
+  const { data, content } = matter.read(`./posts/${ctx.params?.slug}.md`);
+  const { value } = await unified()
+    .use(remarkParse)
+    .use(remarkHtml)
+    .process(content);
   return {
-    props: {}
+    props: {
+      post: value
+    }
   };
-}
+};
 
 export default PostDetail;

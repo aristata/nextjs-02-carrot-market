@@ -1,3 +1,4 @@
+import { readdirSync } from "fs";
 import { NextPage } from "next";
 
 /**
@@ -10,6 +11,22 @@ import { NextPage } from "next";
 const PostDetail: NextPage = () => {
   return <h1>안녕</h1>;
 };
+
+/*
+ * - getStaticPaths 는 동적 URL 이 있는 페이지에서 getStaticProps 를 사용할 때 필요하다
+ * - nextjs 가 동적인 변수를 갖는 페이지를 생성하려면 우리가 nextjs 에게 어떤 페이지들을 만들어야 하는지 알려줘야만 한다
+ */
+export function getStaticPaths() {
+  const fileNames = readdirSync("./posts").map((file) => {
+    const [fileName, _] = file.split(".");
+    return { params: { slug: fileName } };
+  });
+
+  return {
+    paths: fileNames,
+    fallback: false
+  };
+}
 
 export function getStaticProps() {
   return {

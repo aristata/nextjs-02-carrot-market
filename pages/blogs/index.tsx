@@ -2,11 +2,13 @@ import Layout from "@components/layout";
 import { readdirSync, readFileSync } from "fs";
 import matter from "gray-matter";
 import { NextPage } from "next";
+import Link from "next/link";
 
 interface Post {
   blogTitle: string;
   date: string;
   category: string;
+  slug: string;
 }
 
 const Blog: NextPage<{ posts: Post[] }> = ({ posts }) => {
@@ -18,12 +20,16 @@ const Blog: NextPage<{ posts: Post[] }> = ({ posts }) => {
       </h1>
       {posts.map((post, index) => (
         <div key={index} className="mb-5">
-          <span className="text-lg text-red-500">{post.blogTitle}</span>
-          <div>
-            <span>{post.date}</span>
-            {" / "}
-            <span>{post.category}</span>
-          </div>
+          <Link href={`/blogs/${post.slug}`}>
+            <a>
+              <span className="text-lg text-red-500">{post.blogTitle}</span>
+              <div>
+                <span>{post.date}</span>
+                {" / "}
+                <span>{post.category}</span>
+              </div>
+            </a>
+          </Link>
         </div>
       ))}
     </Layout>
@@ -41,7 +47,12 @@ export async function getStaticProps() {
   // "./posts" 로 표시하였다
   const blogPosts = readdirSync("./posts").map((file) => {
     const content = readFileSync(`./posts/${file}`, "utf-8");
-    return matter(content).data;
+
+    // "." 을 기준으로 파일명을 문자열 배열로 변환한다
+    const [slug, _] = file.split(".");
+
+    // matter 의 data 부분과 slug 를 스프레드 연산자를 사용하여 하나의 객체로 묶어서 반환한다
+    return { ...matter(content).data, slug };
   });
   return {
     props: {

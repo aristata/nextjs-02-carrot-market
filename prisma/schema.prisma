@@ -42,6 +42,8 @@ model Token {
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
 
 model Product {
@@ -57,6 +59,8 @@ model Product {
   favorites   Favorite[]
   sales       Sale[]
   purchases   Purchase[]
+
+  @@index([userId])
 }
 
 model Post {
@@ -70,6 +74,8 @@ model Post {
   longitude  Float?
   answers    Answer[]
   wonderings Wondering[]
+
+  @@index([userId])
 }
 
 model Answer {
@@ -81,6 +87,9 @@ model Answer {
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
   answer    String   @db.MediumText
+
+  @@index([userId])
+  @@index([postId])
 }
 
 model Wondering {
@@ -91,6 +100,9 @@ model Wondering {
   userId    Int
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
+
+  @@index([userId])
+  @@index([postId])
 }
 
 model Review {
@@ -103,6 +115,9 @@ model Review {
   createdFor   User     @relation(name: "receivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
   createdForId Int
   score        Int      @default(1)
+
+  @@index([createdById])
+  @@index([createdForId])
 }
 
 model Favorite {
@@ -113,6 +128,9 @@ model Favorite {
   userId    Int
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+
+  @@index([userId])
+  @@index([productId])
 }
 
 model Sale {
@@ -123,6 +141,9 @@ model Sale {
   userId    Int
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+
+  @@index([userId])
+  @@index([productId])
 }
 
 model Purchase {
@@ -133,6 +154,9 @@ model Purchase {
   userId    Int
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+
+  @@index([userId])
+  @@index([productId])
 }
 
 // Favorite, Sale, Purchase 는 같은 구조를 가진 모델이다
@@ -167,6 +191,8 @@ model Stream {
   cloudflareId   String
   cloudflareUrl  String
   cloudflareKey  String
+
+  @@index([userId])
 }
 
 model StreamMessage {
@@ -178,4 +204,7 @@ model StreamMessage {
   stream    Stream   @relation(fields: [streamId], references: [id], onDelete: Cascade)
   streamId  Int
   message   String   @db.MediumText
+
+  @@index([userId])
+  @@index([streamId])
 }

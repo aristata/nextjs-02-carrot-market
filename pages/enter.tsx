@@ -71,7 +71,9 @@ const Enter: NextPage = () => {
   }, [tokenData, router]);
   return (
     <div className="mt-16 px-4">
-      <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
+      <h3 className="text-3xl font-bold text-center">
+        당근마켓 클론 페이지에 오신 것을 환영합니다
+      </h3>
       <div className="mt-12">
         {data?.ok ? (
           <>
